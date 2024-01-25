@@ -1,15 +1,6 @@
 require("dotenv").config();
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  host: "mail.oxcytech.com",
-  port: 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
 const generateVerificationToken = () => {
   return crypto.randomBytes(32).toString("hex");
 };
@@ -43,29 +34,8 @@ const dateConversion = () => {
   return formattedDate;
 };
 
-// Function to convert dynamic object to stored procedure parameters
-function convertObjectToProcedureParams(data) {
-  // Check if data is defined and not null
-  if (data === undefined || data === null) {
-    return null; // or return a default value if needed
-  }
-
-  // Extract the keys and values from the object
-  const entries = Object.entries(data);
-
-  // Convert each entry to the desired format
-  const formattedEntries = entries.map(([key, value]) => `${key} = "${value}"`);
-
-  // Join the formatted entries with commas
-  const formattedParams = formattedEntries.join(", ");
-
-  return formattedParams;
-}
-
 module.exports = {
-  transporter,
   generateVerificationToken,
   nameSplit,
   dateConversion,
-  convertObjectToProcedureParams,
 };
